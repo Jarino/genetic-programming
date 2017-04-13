@@ -1,9 +1,17 @@
 """module docstring"""
 
+from symbols import assign_symbols
+
+from random import choice
 from random import randint
 
+def generate_with_symbols(code_length):
+    """generate read's linear code with symbols assigned"""
+    t = generate(code_length)
+    return assign_symbols(t)
+
 def generate(code_length):
-    """generate Read linear code"""
+    """generate Read linear code. Generate only trees with binary operations"""
     if code_length == 1:
         return [(0, None)]
 
@@ -11,15 +19,15 @@ def generate(code_length):
     upper_bounds = [0] * (code_length + 1)
 
     upper_bounds[1] = code_length - 1
-    code[1] = (randint(1, upper_bounds[1]), None)
+    code[1] = (randint(1, min(upper_bounds[1], 2)), None)
 
     for i in range(2, code_length):
         upper_bounds[i] = upper_bounds[i - 1] - code[i - 1][0]
 
         if (code_length - i) == upper_bounds[i]:
-            code[i] = (randint(1, upper_bounds[i]), None)
+            code[i] = (randint(1, min(upper_bounds[i], 2)), None)
         else:
-            code[i] = (randint(0, upper_bounds[i]), None)
+            code[i] = (0, None)
 
     code[code_length] = (0, None)
     code.pop(0)

@@ -36,7 +36,7 @@ class ReadCodeTest(unittest.TestCase):
         """Testujeme ci generovanie vytvori validny kod"""
         for i in range(1, 10):
             code = readcode.generate(i)
-
+            print(code)
             self.assertTrue(readcode.is_valid(code))
 
     def test_parsing(self):
