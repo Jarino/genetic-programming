@@ -9,9 +9,9 @@ class GeneticOperationsTest(unittest.TestCase):
     def test_mutation(self):
         """code after mutation should still be valid read code"""
         code = readcode.generate(5)
-        
+
         mutated = genetic_operations.mutate(code)
-        
+
         self.assertTrue(readcode.is_valid(mutated))
 
     def test_crossover(self):
@@ -31,3 +31,4 @@ class GeneticOperationsTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    
