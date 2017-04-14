@@ -2,8 +2,9 @@
 
 import random
 
-TERMINALS = ['x', *list(range(1, 5))]
-UNARY = ['exp', 'sqrt']
+VARIABLES = ['x']
+TERMINALS = [*list(range(1, 5))]
+UNARY = ['']
 BINARY = ['+', '-', '*', '/']
 
 def assign_symbols(code):
@@ -11,7 +12,7 @@ def assign_symbols(code):
     res = []
     for symbol in code:
         if symbol[0] == 0:
-            res.append((symbol[0], random.choice(TERMINALS)))
+            res.append((symbol[0], random.choice(random.choice([VARIABLES, TERMINALS]))))
         if symbol[0] == 1:
             res.append((symbol[0], random.choice(UNARY)))
         if symbol[0] == 2:

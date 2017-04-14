@@ -28,6 +28,16 @@ class GeneticOperationsTest(unittest.TestCase):
         self.assertTrue(readcode.is_valid(desc_a))
         self.assertTrue(readcode.is_valid(desc_b))
 
+    def test_select_individuals(self):
+        """from population should return two individuals"""
+        # ako testovat stochasticke metody?
+        sample_population = [('a', 5),('b', 1),('c', 2),('d', 6),('e', 6),('f', 6),('g', 6)]
+
+        selected_a, selected_b = genetic_operations.select_individuals(sample_population)
+
+        # ????
+        self.assertTrue(True)
+
 
 if __name__ == '__main__':
     unittest.main()
