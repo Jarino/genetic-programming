@@ -16,8 +16,8 @@ class GeneticOperationsTest(unittest.TestCase):
 
     def test_crossover(self):
         """should return two trees, both should be valid"""
-        code_a = [2, 1, 0, 2, 1, 0, 0]
-        code_b = [3, 2, 1, 0, 0, 0, 1, 2, 0, 0]
+        code_a = [(2,), (1,), (0,), (2,), (1,), (0,), (0,)]
+        code_b = [(3,), (2,), (1,), (0,), (0,), (0,), (1,), (2,), (0,), (0,)]
 
         print('pred', code_a, code_b)
 
