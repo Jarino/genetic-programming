@@ -1,8 +1,12 @@
 """Modul obsahujuci geneticke operatory mutacie a krizenia dvoch stromov"""
 
+from pymitter import EventEmitter
+
 import random
 import readcode
 import symbols
+
+go_emitter = EventEmitter()
 
 def mutate(code):
     """
@@ -24,6 +28,9 @@ def crossover(code_a, code_b):
 
     index_a = random.randint(0, len(code_a) - 1)
     index_b = random.randint(0, len(code_b) - 1)
+
+    go_emitter.emit('pick_a', code_a[index_a][0])
+    go_emitter.emit('pick_b', code_b[index_b][0])
 
     subtree_a_len = readcode.subtree_length(code_a, index_a)
     subtree_b_len = readcode.subtree_length(code_b, index_b)
