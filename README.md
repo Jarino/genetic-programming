@@ -1,9 +1,3 @@
-# gprog
-Implementation of genetic programming algorithm in python
+# Archived branch
 
-This is just an personal programming exercise.
-
-## Testing
-```
-python -m unittest discover
-```
+This branch is not under development, it's just an archive containing implementation of random tree generation with Read linear code, with unsuccessful regression attempt.
