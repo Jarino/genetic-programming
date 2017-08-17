@@ -1,4 +1,5 @@
 from tree.edges_parser import parse
+from tree.search import flat_dfs
 from tree.node import Node
 
 NONTERMINAL = {
@@ -20,25 +21,11 @@ class Tree():
         else:
             self.nodes = {x:Node(x) for x in node_ids}
 
-        
-    def flat_dfs(self, start_id):
-        seq = []
-        stack = [start_id]
-
-        while len(stack) > 0:
-            current_node_id = stack.pop()
-
-            seq.append(current_node_id)
-
-            for child_id in reversed(self.hash_map[current_node_id]):
-                stack.append(child_id)
-
-        return seq
 
     def __str__(self):
         stack = []
 
-        for token in reversed(self.flat_dfs(self.root)):
+        for token in reversed(flat_dfs(self.hash_map, self.root)):
 
             current_node = self.nodes[token]
 

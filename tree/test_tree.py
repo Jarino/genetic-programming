@@ -1,17 +1,6 @@
 from tree.tree import Tree
 
 
-def test_flat_dfs():
-    """
-    test the iterative depth first search of the tree
-    """
-    tree = Tree([(1, 2), (2, 4), (2, 5), (1, 3), (3, 6)])
-
-    search_sequence = tree.flat_dfs(1)
-
-    assert search_sequence == [1, 2, 4, 5, 3, 6]
-
-
 def test_to_string():
     """
     Test the conversion of tree into evaluatable string
