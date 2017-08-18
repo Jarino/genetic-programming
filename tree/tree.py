@@ -2,17 +2,13 @@ from tree.edges_parser import parse
 from tree.search import flat_dfs
 from tree.node import Node
 
-NONTERMINAL = {
-    'sum': 2,
-    'prod': 2,
-    'log': 1,
-    'sin': 1
-}
 
 class Tree():
 
-    def __init__(self, edges, values=None):
+    def __init__(self, edges, nonterminals, values=None):
         node_ids, self.hash_map = parse(edges)
+
+        self.nonterminals = nonterminals
 
         self.root = edges[0][0]
 
@@ -29,10 +25,10 @@ class Tree():
 
             current_node = self.nodes[token]
 
-            if current_node.value not in NONTERMINAL:
+            if current_node.value not in self.nonterminals:
                 stack.append(current_node.value)
             else:
-                n_arguments = NONTERMINAL[current_node.value]
+                n_arguments = self.nonterminals[current_node.value]
                 operands = [stack.pop() for _ in range(0, n_arguments)]
                 stack.append('{}({})'.format(current_node.value, ','.join(operands)))
         
