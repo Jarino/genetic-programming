@@ -3,15 +3,15 @@ An attempt to implement the generation of random trees using the composite
 pattern and this link: 
 https://nokyotsu.com/qscripts/2008/05/generating-random-trees-and-connected.html
 
-TODO:
-- select random node from graph
-- limit generation to specific number of children
 """
 
 from random import choice
 from functools import reduce
+from collections import Counter
 
 import numpy as np
+
+from utils.dictionary import reverse
 
 def choose_child(options, edges, child_limit):
     """
@@ -51,8 +51,26 @@ def get_random_tree(n_nodes, child_limit):
         src.append(child)
     return src, edges
 
-def assign():
+def assign_random_symbols(edges, nonterminals, terminals):
     """
     Assign random terminals to leafs and non terminals to nodes
     """
-    raise NotImplementedError
+    nonterminals_rev = reverse(nonterminals)
+
+    parents = [x[0] for x in edges]
+    p_occurencies = Counter(parents)
+
+    children = set([x[1] for x in edges])
+    leaves = children - set(parents)
+
+    values = {}
+
+    for parent in parents:
+        n_args = p_occurencies[parent]
+        operator = choice(nonterminals_rev[n_args])
+        values[parent] = operator
+
+    for leaf in leaves:
+        values[leaf] = choice(terminals)
+
+    return values

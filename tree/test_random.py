@@ -8,6 +8,7 @@ import numpy as np
 
 from tree.random import get_random_tree
 from tree.random import choose_child
+from tree.random import assign_random_symbols
 
 
 def not_so_random_permutation(length):
@@ -48,3 +49,21 @@ def test_choose_child(choice_mock):
     ], 2)
 
     assert child == 2
+
+
+def test_assign_random_symbols():
+    edges = [(1, 2), (2, 3), (1, 5)]
+
+    nonterminals = {
+        'sum': 2,
+        'log': 1
+    }
+
+    terminals = [
+        '5'
+    ]
+
+    values = assign_random_symbols(edges, nonterminals, terminals)
+
+
+    assert values == {1: 'sum', 2: 'log', 3: '5', 5: '5'}
