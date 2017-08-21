@@ -30,3 +30,16 @@ def point_mutate(tree):
 
     return mutated_tree
 
+def crossover(father, mother):
+    # choose random crossover points from father and mother
+    father_crosspoint = choice(father.node_ids)
+    mother_crosspoint = choice(mother.node_ids)
+
+    father_subtree = father.subtree(father_crosspoint)
+    mother_subtree = mother.subtree(mother_crosspoint)
+
+    
+
+
+
+

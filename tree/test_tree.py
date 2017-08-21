@@ -1,4 +1,5 @@
 from tree.tree import Tree
+from tree.tree import Node
 from environment.environment import BasicEnvironment
 from environment.environment import Environment
 
@@ -66,3 +67,57 @@ def test_eval_without_variables():
 
     assert result == 2
 
+def test_getting_subtree():
+    edges = [(1, 3), (3, 0),(0, 2), (0, 4)]
+    values = {1: '_log', 2: 'x', 3: '_log', 0: '_sum', 4: '1'}
+    environment = Environment({
+        '_sum': lambda x,y : x + y,
+        '_log': lambda x: x
+    }, [])
+
+    tree = Tree(edges, environment, values)
+
+    subtree_hash_map = tree.subtree(0)
+
+    assert subtree_hash_map == {
+        0: [2, 4],
+        2: [],
+        4: []
+    } or subtree_hash_map == {
+        0: [4, 2],
+        2: [],
+        4: []
+    }
+
+    # assert subtree_nodes == {
+    #     0: Node(0, '_sum'),
+    #     2: Node(0, 'x'),
+    #     4: Node(0, '1')
+    # }
+
+def test_remap_tree():
+    edges = [(0, 2), (0, 4)]
+    values = {0: '_sum', 2: 'x', 4: 'y'}
+    environment = Environment({
+        '_sum': lambda x, y: x + y
+    }, [])
+
+    tree = Tree(edges, environment, values)
+
+    tree.remap()
+
+    # assert tree.nodes == {0: Node(0, '_sum'), 1: Node(1, 'x'), 2: Node(2, 'y')}
+    assert tree.hash_map == {
+        0: [1, 2],
+        1: [],
+        2: []
+    }
+    assert str(tree) == '_sum(x,y)'
+
+    tree.remap(4)
+    assert tree.hash_map == {
+        4: [5, 6],
+        5: [],
+        6: []
+    }
+    assert str(tree) == '_sum(x,y)'

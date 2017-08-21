@@ -47,3 +47,40 @@ class Tree():
 
     def copy(self):
         return deepcopy(self)
+
+    def subtree(self, start_node):
+        stack = [start_node]
+        subtree_map = {}
+        while len(stack) != 0:
+            current_node = stack.pop()
+            subtree_map[current_node] = self.hash_map[current_node][:]
+            stack += self.hash_map[current_node]
+        
+        return subtree_map
+
+    def remap(self, start_id=0):
+        new_ids = list(range(start_id, start_id + len(self.node_ids)))
+        self.node_ids = new_ids[:]
+
+        stack = [self.root]
+        self.root = start_id
+        edges = []
+        values = {}
+        while len(new_ids) != 0:           
+            current_id = stack.pop()
+            current_node = self.nodes[current_id]
+
+            stack += self.hash_map[current_id]
+            
+            new_current_id = new_ids.pop(0)
+            values[new_current_id] = current_node.value
+            
+            for child_id in self.hash_map[current_id]:
+                new_child_id = new_ids.pop(0)
+                values[new_child_id] = self.nodes[child_id].value
+                edges.append((new_current_id, new_child_id))
+            
+        self.node_ids, self.hash_map = parse(edges)
+
+        self.nodes = {x:Node(x, value=values[x]) for x in self.node_ids}
+            

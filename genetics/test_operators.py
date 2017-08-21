@@ -21,12 +21,12 @@ def test_point_mutation(choice_mock, tree_stub):
     listed_nodes = [(k.id, k.value) for _, k in tree.nodes.items()]
 
     assert listed_nodes == [
-            (0, '_diff'),
-            (1, '_diff'),
-            (2, '5'),
-            (3, '10'),
-            (4, '3')
-        ]
+        (0, '_diff'),
+        (1, '_diff'),
+        (2, '5'),
+        (3, '10'),
+        (4, '3')
+    ]
 
     assert tree_stub.nodes != tree.nodes
 
@@ -37,17 +37,17 @@ def test_point_mutation_leaf(choice_mock, tree_stub):
     listed_nodes = [(k.id, k.value) for _, k in tree.nodes.items()]
 
     assert listed_nodes == [
-            (0, '_sum'),
-            (1, '_diff'),
-            (2, '2'),
-            (3, '10'),
-            (4, '3')
-        ]
-    
+        (0, '_sum'),
+        (1, '_diff'),
+        (2, '2'),
+        (3, '10'),
+        (4, '3')
+    ]
+
     assert tree.nodes != tree_stub.nodes
 
-def test_subtree_mutation():
+def test_crossover():
     pass
 
-def test_crossover():
+def test_subtree_mutation():
     pass
