@@ -19,4 +19,4 @@ def parse(edges):
         else:
             hash_map[parent].append(child)
 
-    return nodes, hash_map
+    return list(nodes), hash_map

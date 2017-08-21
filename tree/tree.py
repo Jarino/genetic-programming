@@ -1,4 +1,8 @@
 from inspect import signature as sg
+from copy import deepcopy
+
+
+from randomdict import RandomDict
 
 from tree.edges_parser import parse
 from tree.search import flat_dfs
@@ -9,17 +13,16 @@ from utils.dictionary import convert_to_args_n
 class Tree():
 
     def __init__(self, edges, nonterminals, values=None):
-        node_ids, self.hash_map = parse(edges)
-
+        self.node_ids, self.hash_map = parse(edges)
         self.nonterminals = nonterminals
         self.nt_cards = convert_to_args_n(nonterminals)
 
         self.root = edges[0][0]
 
         if values is not None:
-            self.nodes = {x:Node(x, value=values[x]) for x in node_ids}
+            self.nodes = {x:Node(x, value=values[x]) for x in self.node_ids}
         else:
-            self.nodes = {x:Node(x) for x in node_ids}
+            self.nodes = {x:Node(x) for x in self.node_ids}
 
 
     def __str__(self):
@@ -42,3 +45,6 @@ class Tree():
         if env is None:
             env = {}
         return eval(str(self), {**self.nonterminals, **env})
+
+    def copy(self):
+        return deepcopy(self)

@@ -5,7 +5,7 @@ def test_edges_parser():
 
     nodes, hash_map = parse(input_edges)
 
-    assert nodes == set([1,2,3,4])
+    assert nodes == [1,2,3,4]
     assert hash_map == {
         1: [2, 3],
         2: [],
