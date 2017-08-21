@@ -36,7 +36,11 @@ def test_basic_tree(permutation_mock, choice_mock):
 # http://fgimian.github.io/blog/2014/04/10/using-the-python-mock-library-to-fake-regular-functions-during-tests/
 # for reference
 @patch('tree.random.choice')
-def test_choose_child(choice_mock):
+def test_choose_child_upper_bound(choice_mock):
+    """
+    Tests whether function returns child which do not violate the upper bound
+    of number of children
+    """
     generator = choice_generator(3)
 
     def choice_return_value(arr):

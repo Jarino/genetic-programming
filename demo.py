@@ -1,8 +1,15 @@
+from math import log
+
 from utils import operators as ops
 
 from tree.random_tree_factory import RandomTreeFactory
 
-nonterminals = {'_sum': 2, '_log': 1, '_diff': 2, '_prod': 2}
+nonterminals = {
+    'c_sum': lambda x, y: x + y,
+    'c_log': lambda x: log(x), 
+    'c_diff': lambda x, y: x - y, 
+    'c_prod': lambda x, y: x* y
+}
 terminals = ['x', 'y']
 
 factory = RandomTreeFactory(5, 2, nonterminals, terminals)
@@ -10,16 +17,7 @@ factory = RandomTreeFactory(5, 2, nonterminals, terminals)
 tree = factory.create()
 
 try:
-    result = eval(str(tree), {
-        'x': 5, 'y': 9,
-        '_sum': ops.c_sum,
-        '_log': ops.c_log, 
-        '_diff': ops.c_diff,
-        '_prod': ops.c_prod
-    })
-
-    print(tree, result)
+    print(tree, tree({'x': 100, 'y': 12}))
 except ValueError:
     print('Math domain error')
     print(tree)
-

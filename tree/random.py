@@ -1,8 +1,5 @@
 """
-An attempt to implement the generation of random trees using the composite
-pattern and this link: 
-https://nokyotsu.com/qscripts/2008/05/generating-random-trees-and-connected.html
-
+Functions related to generation of random trees.
 """
 
 from random import choice
@@ -36,6 +33,9 @@ def get_random_tree(n_nodes, child_limit):
     chlid_limit limits the number of child each node can have. 
 
     Returns simple representation of tree - list of nodes and list of edges
+
+    Implemented by this:
+    https://nokyotsu.com/qscripts/2008/05/generating-random-trees-and-connected.html
     """
     nodes = np.random.permutation(n_nodes).tolist()
     # choose the root

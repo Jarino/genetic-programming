@@ -1,7 +1,10 @@
+from inspect import signature as sg
+
 from tree.edges_parser import parse
 from tree.search import flat_dfs
 from tree.node import Node
 
+from utils.dictionary import convert_to_args_n
 
 class Tree():
 
@@ -9,6 +12,7 @@ class Tree():
         node_ids, self.hash_map = parse(edges)
 
         self.nonterminals = nonterminals
+        self.nt_cards = convert_to_args_n(nonterminals)
 
         self.root = edges[0][0]
 
@@ -25,11 +29,16 @@ class Tree():
 
             current_node = self.nodes[token]
 
-            if current_node.value not in self.nonterminals:
+            if current_node.value not in self.nt_cards:
                 stack.append(current_node.value)
             else:
-                n_arguments = self.nonterminals[current_node.value]
+                n_arguments = self.nt_cards[current_node.value]
                 operands = [stack.pop() for _ in range(0, n_arguments)]
                 stack.append('{}({})'.format(current_node.value, ','.join(operands)))
         
         return stack.pop()
+    
+    def __call__(self, env=None):
+        if env is None:
+            env = {}
+        return eval(str(self), {**self.nonterminals, **env})
