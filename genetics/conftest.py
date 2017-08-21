@@ -1,15 +1,12 @@
 import pytest
 
 from tree.tree import Tree
+from environment.environment import BasicEnvironment
 
 @pytest.fixture(scope="session")
 def tree_stub():
     edges = [(0, 1), (1, 3), (1, 4), (0, 2)]
-    return Tree(edges, {
-            '_log': lambda x: x,
-            '_sum': lambda x, y: x + y,
-            '_diff': lambda x, y: x - y
-        }, {
+    return Tree(edges, BasicEnvironment(), {
             0: '_sum',
             1: '_diff',
             2: '5',

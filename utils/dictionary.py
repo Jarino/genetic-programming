@@ -7,6 +7,11 @@ def reverse(dictionary):
             r_dict[value] = [key]
         else:
             r_dict[value].append(key)
+    
+    # sort the symbols for deterministic output
+    for key, value in r_dict.items():
+        r_dict[key].sort()
+
     return r_dict
 
 

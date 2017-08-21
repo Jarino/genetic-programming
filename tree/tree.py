@@ -12,10 +12,9 @@ from utils.dictionary import convert_to_args_n
 
 class Tree():
 
-    def __init__(self, edges, nonterminals, values=None):
+    def __init__(self, edges, environment, values=None):
         self.node_ids, self.hash_map = parse(edges)
-        self.nonterminals = nonterminals
-        self.nt_cards = convert_to_args_n(nonterminals)
+        self.environment = environment
 
         self.root = edges[0][0]
 
@@ -32,10 +31,10 @@ class Tree():
 
             current_node = self.nodes[token]
 
-            if current_node.value not in self.nt_cards:
+            if current_node.value not in self.environment.n_args:
                 stack.append(current_node.value)
             else:
-                n_arguments = self.nt_cards[current_node.value]
+                n_arguments = self.environment.n_args[current_node.value]
                 operands = [stack.pop() for _ in range(0, n_arguments)]
                 stack.append('{}({})'.format(current_node.value, ','.join(operands)))
         
@@ -44,7 +43,7 @@ class Tree():
     def __call__(self, env=None):
         if env is None:
             env = {}
-        return eval(str(self), {**self.nonterminals, **env})
+        return eval(str(self), {**self.environment.nonterminals, **env})
 
     def copy(self):
         return deepcopy(self)

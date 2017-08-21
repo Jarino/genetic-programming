@@ -1,7 +1,7 @@
 from tree.tree import Tree
 from tree.random import get_random_tree
 from tree.random import assign_random_symbols
-
+from environment.environment import Environment
 from utils.dictionary import convert_to_args_n
 
 class RandomTreeFactory():
@@ -11,6 +11,7 @@ class RandomTreeFactory():
         self.child_limit = child_limit
         self.nonterminals = nonterminals
         self.terminals = terminals
+        self.environment = Environment(nonterminals, terminals)
 
     def create(self):
         """
@@ -18,9 +19,8 @@ class RandomTreeFactory():
         symbols defined in the factory
         """
         _, edges = get_random_tree(self.n_nodes, self.child_limit)
-        args_n = convert_to_args_n(self.nonterminals)
-        values = assign_random_symbols(edges, args_n, self.terminals)
-        return Tree(edges, self.nonterminals, values)
+        values = assign_random_symbols(edges, self.environment.n_args, self.terminals)
+        return Tree(edges, self.environment, values)
 
 
 

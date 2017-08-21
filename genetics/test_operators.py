@@ -16,9 +16,7 @@ def choice_leaf(arr):
 @patch('genetics.operators.choice', side_effect=not_so_random_choice)
 def test_point_mutation(choice_mock, tree_stub):
     
-    tree = point_mutate(tree_stub, {
-        2: ['_diff']
-    }, ['10'])
+    tree = point_mutate(tree_stub)
 
     listed_nodes = [(k.id, k.value) for _, k in tree.nodes.items()]
 
@@ -34,14 +32,14 @@ def test_point_mutation(choice_mock, tree_stub):
 
 @patch('genetics.operators.choice', side_effect=choice_leaf)
 def test_point_mutation_leaf(choice_mock, tree_stub):
-    tree = point_mutate(tree_stub, reverse(tree_stub.nonterminals), ['', '', '11'])
+    tree = point_mutate(tree_stub)
 
     listed_nodes = [(k.id, k.value) for _, k in tree.nodes.items()]
 
     assert listed_nodes == [
             (0, '_sum'),
             (1, '_diff'),
-            (2, '11'),
+            (2, '2'),
             (3, '10'),
             (4, '3')
         ]

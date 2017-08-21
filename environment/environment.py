@@ -9,6 +9,7 @@ class Environment():
         self.nonterminals = nonterminals
         self.n_args = convert_to_args_n(self.nonterminals)
         self.reversed_n_args = reverse(self.n_args)
+
         self.terminals = terminals
 
 
