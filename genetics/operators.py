@@ -39,8 +39,8 @@ def crossover(father, mother):
     f_subtree_edges, f_subtree_values = father.subtree(father_crosspoint)
     m_subtree_edges, m_subtree_values = mother.subtree(mother_crosspoint)
 
-    largest_father_id = father.node_ids[-1]
-    largest_mother_id = mother.node_ids[-1]
+    largest_father_id = father.node_ids[-1] + 1
+    largest_mother_id = mother.node_ids[-1] + 1
 
     # edges
     father_without = set(father.edges) - set(f_subtree_edges)
@@ -50,10 +50,10 @@ def crossover(father, mother):
     m_subtree_edges = [(x+largest_mother_id , y + largest_mother_id) for x, y in m_subtree_edges]
 
 
-    child_a_edges = father_without.union(set(m_subtree_edges))
-    child_b_edges = mother_without.union(set(f_subtree_edges))
+    child_a_edges = m_subtree_edges + list(father_without)
+    child_b_edges = f_subtree_edges + list(mother_without)
 
-    child_a_edges = [(p,c+largest_father_id) if c == father_crosspoint
+    child_a_edges = [(p,c+largest_father_id) if c == mother_crosspoint
                         else (p,c) for p, c in child_a_edges]
     child_b_edges = [(p,c+largest_mother_id) if c == father_crosspoint
                         else (p,c) for p, c in child_b_edges]

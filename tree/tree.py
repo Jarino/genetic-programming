@@ -17,7 +17,7 @@ class Tree():
         self.node_ids, self.hash_map = parse(edges)
         self.environment = environment
         self.values = values
-        self.root = edges[0][0]
+        self.root = (set([x[0] for x in edges]) - set(x[1] for x in edges)).pop()
 
         if values is not None:
             self.nodes = {x:Node(x, value=values[x]) for x in self.node_ids}
@@ -68,7 +68,7 @@ class Tree():
         return edges, values
 
     def remap(self, start_id=0):
-        id_map = { k:v for k,v in zip(self.node_ids, range(start_id, start_id + len(self.node_ids)))}
+        id_map = { k:v for k,v in zip(sorted(self.node_ids), range(start_id, start_id + len(self.node_ids)))}
 
         self.node_ids = list(range(start_id, start_id + len(self.node_ids)))
 
