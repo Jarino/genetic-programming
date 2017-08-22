@@ -13,9 +13,10 @@ from utils.dictionary import convert_to_args_n
 class Tree():
 
     def __init__(self, edges, environment, values=None):
+        self.edges = edges
         self.node_ids, self.hash_map = parse(edges)
         self.environment = environment
-
+        self.values = values
         self.root = edges[0][0]
 
         if values is not None:
@@ -50,35 +51,42 @@ class Tree():
 
     def subtree(self, start_node):
         stack = [start_node]
-        subtree_map = {}
+        edges = []
+        values = {}
+
         while len(stack) != 0:
             current_node = stack.pop()
-            subtree_map[current_node] = self.hash_map[current_node][:]
+
+            values[current_node] = self.nodes[current_node].value
+
+            for child_id in self.hash_map[current_node]:
+                edges.append((current_node, child_id))
+                values[child_id] = self.nodes[child_id].value
+
             stack += self.hash_map[current_node]
-        
-        return subtree_map
+
+        return edges, values
 
     def remap(self, start_id=0):
-        new_ids = list(range(start_id, start_id + len(self.node_ids)))
-        self.node_ids = new_ids[:]
+        id_map = { k:v for k,v in zip(self.node_ids, range(start_id, start_id + len(self.node_ids)))}
+
+        self.node_ids = list(range(start_id, start_id + len(self.node_ids)))
 
         stack = [self.root]
         self.root = start_id
         edges = []
         values = {}
-        while len(new_ids) != 0:           
+        while len(stack) != 0:
             current_id = stack.pop()
-            current_node = self.nodes[current_id]
-
+            # add current visited value
+            values[id_map[current_id]] = self.nodes[current_id].value
+            
+            # add children to stack
             stack += self.hash_map[current_id]
             
-            new_current_id = new_ids.pop(0)
-            values[new_current_id] = current_node.value
-            
+            # add edges from current node
             for child_id in self.hash_map[current_id]:
-                new_child_id = new_ids.pop(0)
-                values[new_child_id] = self.nodes[child_id].value
-                edges.append((new_current_id, new_child_id))
+                edges.append((id_map[current_id], id_map[child_id]))
             
         self.node_ids, self.hash_map = parse(edges)
 

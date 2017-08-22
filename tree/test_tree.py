@@ -77,23 +77,15 @@ def test_getting_subtree():
 
     tree = Tree(edges, environment, values)
 
-    subtree_hash_map = tree.subtree(0)
+    edges, values = tree.subtree(0)
 
-    assert subtree_hash_map == {
-        0: [2, 4],
-        2: [],
-        4: []
-    } or subtree_hash_map == {
-        0: [4, 2],
-        2: [],
-        4: []
+    assert edges == [(0,2), (0,4)]
+    assert values == {
+        0: '_sum',
+        2: 'x',
+        4: '1'
     }
 
-    # assert subtree_nodes == {
-    #     0: Node(0, '_sum'),
-    #     2: Node(0, 'x'),
-    #     4: Node(0, '1')
-    # }
 
 def test_remap_tree():
     edges = [(0, 2), (0, 4)]
