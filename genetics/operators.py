@@ -72,7 +72,15 @@ def crossover(father, mother):
     child_a_values = {k+largest_mother_id:v for k,v in m_subtree_values_set}
     child_a_values = {**child_a_values, **dict(f_values_without)}
 
+    print('Father')
+    print('Crossover point', father_crosspoint)
+    print('Father largest id', largest_father_id)
     print(child_a_values, child_a_edges)
+
+    print('Mother')
+    print('Crossover point', mother_crosspoint)
+    print('Mother largest id', largest_mother_id)
+    print(child_b_values, child_b_edges)
 
     child_a = Tree(child_a_edges, father.environment, child_a_values)
     child_b = Tree(child_b_edges, mother.environment, child_b_values)
