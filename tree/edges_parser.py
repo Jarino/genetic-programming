@@ -27,7 +27,7 @@ def parse_to_nodes(edges, values=None):
     nodes = {}
 
     if values is None:
-        values = {x:x for x in range(0, len(edges) * 2)}
+        values = {x:x for x in set([y for x in edges for y in x])}
 
     root = (set([x[0] for x in edges]) - set([x[1] for x in edges])).pop()
 

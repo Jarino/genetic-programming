@@ -1,32 +1,23 @@
 import pytest
 
-from tree.tree import Tree
-from environment.environment import BasicEnvironment
-
-@pytest.fixture(scope="session")
-def tree_stub():
-    edges = [(0, 1), (1, 3), (1, 4), (0, 2)]
-    return Tree(edges, BasicEnvironment(), {
-            0: '_sum',
-            1: '_diff',
-            2: '5',
-            3: '10',
-            4: '3'
-        })
+from rtree.node import Node
+from tree.edges_parser import parse_to_nodes
 
 @pytest.fixture(scope='session')
-def tree_stub2():
-    edges = [(0, 1), (0, 4), (1, 2), (2, 3)]
-    
-    return Tree(edges, BasicEnvironment(), {
-           0: '_sum',
-           1: '_log',
-           2: '_log',
-           3: '10',
-           4: '3'
-       })
+def test_tree_a():
+    edges = [(0, 1), (1, 2), (1, 3), (0, 4)]
 
+    root_node, _ = parse_to_nodes(edges)
 
+    return root_node
+
+@pytest.fixture(scope='session')
+def test_tree_b():
+    edges = [('a', 'b'), ('b', 'c'), ('b', 'd'), ('d', 'e')]
+
+    root_node, _ = parse_to_nodes(edges)
+
+    return root_node
 
 
 

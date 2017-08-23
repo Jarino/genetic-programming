@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from rtree.dfs import walk_nodes
 
 
@@ -26,3 +28,6 @@ class Node():
     def __call__(self, nonterminals, terminals):
         expression = self.to_expression(nonterminals)
         return eval(expression, {**nonterminals, **terminals} )
+
+    def copy(self):
+        return deepcopy(self)

@@ -1,101 +1,41 @@
 """
 Module containing functions for genetic operations
 """
-from inspect import signature as sg
 from random import choice
 
-from tree.tree import Tree
-from tree.node import Node
-from utils.lists import add
+from rtree.dfs import walk_nodes_with_parents
+from rtree.dfs import walk_nodes
 
-def point_mutate(tree):
-    # choose random node
-    node_id = choice(tree.node_ids)
+
+def crossover(tree_a, tree_b):
+    child_a = tree_a.copy()
+    child_b = tree_b.copy()
+
+    _switch_subtrees(child_a, child_b)
     
-    # determine whether it is leaf or node
-    is_leaf = len(tree.hash_map[node_id]) == 0
-
-    if is_leaf:
-        # pick random terminal
-        new_symbol = choice(tree.environment.terminals)
-    else:
-        # check how many arguments it has to take
-        old_symbol = tree.nodes[node_id]
-        n_args = len(sg(tree.environment.nonterminals[old_symbol.value]).parameters)
-        # and pick random nonterminal
-        new_symbol = choice(tree.environment.reversed_n_args[n_args])
-
-    mutated_tree = tree.copy()
-
-    mutated_tree.nodes.update({node_id: Node(node_id, new_symbol)})
-
-    return mutated_tree
-
-def crossover(father, mother):
-    # choose random crossover points from father and mother
-    father_crosspoint = choice(father.node_ids)
-    mother_crosspoint = choice(mother.node_ids)
-
-    f_subtree_edges, f_subtree_values = father.subtree(father_crosspoint)
-    m_subtree_edges, m_subtree_values = mother.subtree(mother_crosspoint)
-
-    largest_father_id = father.node_ids[-1] + 1
-    largest_mother_id = mother.node_ids[-1] + 1
-
-    # edges
-    father_without = set(father.edges) - set(f_subtree_edges)
-    mother_without = set(mother.edges) - set(m_subtree_edges)
-    
-    f_subtree_edges = [(x+largest_father_id , y + largest_father_id) for x, y in f_subtree_edges]
-    m_subtree_edges = [(x+largest_mother_id , y + largest_mother_id) for x, y in m_subtree_edges]
-
-
-    child_a_edges = m_subtree_edges + list(father_without)
-    child_b_edges = f_subtree_edges + list(mother_without)
-
-    child_a_edges = [(p,c+largest_father_id) if c == mother_crosspoint
-                        else (p,c) for p, c in child_a_edges]
-    child_b_edges = [(p,c+largest_mother_id) if c == father_crosspoint
-                        else (p,c) for p, c in child_b_edges]
-
-    # values    
-    f_subtree_values_set = set(f_subtree_values.items())
-    m_subtree_values_set = set(m_subtree_values.items())
-    
-    f_values_without = set(father.values.items()) - set(f_subtree_values_set)
-    m_values_without = set(mother.values.items()) - set(m_subtree_values_set)
-
-    child_b_values = {k+largest_father_id:v for k,v in f_subtree_values_set}
-    child_b_values = {**child_b_values, **dict(m_values_without)}
-    
-
-    child_a_values = {k+largest_mother_id:v for k,v in m_subtree_values_set}
-    child_a_values = {**child_a_values, **dict(f_values_without)}
-
-    print('Father')
-    print('Crossover point', father_crosspoint)
-    print('Father largest id', largest_father_id)
-    print(child_a_values, child_a_edges)
-
-    print('Mother')
-    print('Crossover point', mother_crosspoint)
-    print('Mother largest id', largest_mother_id)
-    print(child_b_values, child_b_edges)
-
-    child_a = Tree(child_a_edges, father.environment, child_a_values)
-    child_b = Tree(child_b_edges, mother.environment, child_b_values)
-
-
-
-    child_a.remap()
-    child_b.remap()
-
     return child_a, child_b
 
+def _switch_subtrees(tree_a, tree_b):
+    tree_a_nodes = walk_nodes_with_parents(tree_a)
+    tree_b_nodes = walk_nodes_with_parents(tree_b)
+
+    parent_a, child_a = choice(tree_a_nodes)
+    parent_b, child_b = choice(tree_b_nodes)
+
+    index_to_replace = parent_a.children.index(child_a)
+    parent_a.children[index_to_replace] = child_b
+
+    index_to_replace = parent_b.children.index(child_b)
+    parent_b.children[index_to_replace] = child_a
 
 
+def point_mutation(tree, symbols):
+    mutated_tree = tree.copy()
 
+    nodes = walk_nodes(mutated_tree)
 
+    chosen = choice(nodes)
 
+    chosen.value = choice(symbols[len(chosen.children)])
 
-
+    return mutated_tree
