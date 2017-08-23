@@ -1,5 +1,6 @@
 from rtree.dfs import walk_nodes
 
+
 class Node():
 
     def __init__(self, value, children=None):
