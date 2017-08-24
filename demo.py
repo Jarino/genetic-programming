@@ -1,29 +1,37 @@
-from math import log
-from tree.edges_parser import parse_to_nodes
-from utils import operators as ops
-from tree.random import get_random_tree
-from tree.random import assign_random_symbols
-from tree.random_tree_factory import RandomTreeFactory
-from utils.dictionary import convert_to_args_n
-nonterminals = {
-    'c_sum': lambda x, y: x + y,
-    'c_log': lambda x: log(x), 
-    'c_diff': lambda x, y: x - y, 
-    'c_prod': lambda x, y: x* y
-}
+from rtree.random_tree_factory import RandomTreeFactory
+from genetics.operators import point_mutation
+from genetics.operators import crossover
 
-n_args = convert_to_args_n(nonterminals)
+factory = RandomTreeFactory()
+env = factory.environment
+root_node = factory.create()
+root_node_b = factory.create()
 
-terminals = ['x', 'y']
+print('Original a')
+print(root_node, root_node(env({
+    'x': 10,
+    'y': 5
+})))
 
-_, edges = get_random_tree(5,2)
-values = assign_random_symbols(edges, n_args, terminals)
-root_node, _  = parse_to_nodes(edges, values)
+print('Original b')
+print(root_node_b, root_node_b(env({
+    'x': 10,
+    'y': 5
+})))
+
+child_a, child_b = crossover(root_node, root_node_b)
+print('Child a')
+print(child_a, child_a(env({
+    'x': 10,
+    'y': 5
+})))
 
 
-print(root_node)
-
-print(root_node())
+print('Child b')
+print(child_b, child_b(env({
+    'x': 10,
+    'y': 5
+})))
 
 
 # factory = RandomTreeFactory(5, 2, nonterminals, terminals)

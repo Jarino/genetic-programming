@@ -1,4 +1,4 @@
-from math import log
+from math import sin
 from random import randint
 from random import choice
 
@@ -10,6 +10,11 @@ class Environment():
         self.symbols_inv = reverse(convert_to_args_n(symbols))
         self.symbols = symbols
 
+    def __call__(self, vars):
+        """
+        Return the symbols updated with entries from vars
+        """
+        return {**self.symbols, **vars}
 
 class BasicEnvironment(Environment):
 
@@ -30,7 +35,7 @@ class BasicEnvironment(Environment):
         symbols = {
             '_sum': lambda x, y: x + y,
             '_diff': lambda x, y: x - y,
-            '_log': lambda x: log(x),
+            '_sin': lambda x: sin(x),
             '_int': lambda: next(random_int_generator),
             '_var': lambda: next(random_var_generator)
         }

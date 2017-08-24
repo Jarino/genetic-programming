@@ -12,7 +12,7 @@ def test_node_eval(tree_with_vars):
 
     terminals = {'x': 5, 'y': 3, 'z': 7}
 
-    assert tree_with_vars(nonterminals, terminals) == 1
+    assert tree_with_vars({**nonterminals, **terminals}) == 1
 
 def test_node_eval_with_number(tree_with_vars_and_numbers):
     nonterminals = {
@@ -22,6 +22,6 @@ def test_node_eval_with_number(tree_with_vars_and_numbers):
 
     terminals = {'x': 5, 'z': 7}
 
-    assert tree_with_vars_and_numbers(nonterminals, terminals) == 7
+    assert tree_with_vars_and_numbers({**nonterminals, **terminals}) == 7
 
     

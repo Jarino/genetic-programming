@@ -3,9 +3,11 @@ Unit tests for tree generation
 """
 
 from unittest.mock import patch
+from unittest.mock import Mock
 
 import numpy as np
 
+from environment.environment import BasicEnvironment
 from utils.random import get_random_tree
 from utils.random import choose_child
 from utils.random import assign_random_symbols
@@ -54,7 +56,6 @@ def test_choose_child_upper_bound(choice_mock):
 
     assert child == 2
 
-
 def test_assign_random_symbols():
     edges = [(1, 2), (2, 3), (1, 5)]
 
@@ -62,13 +63,19 @@ def test_assign_random_symbols():
         while True:
             yield '5'
 
-    gen = num_gen()    
-    symbols = {
+    gen = num_gen()
+
+    env = Mock(symbols={
+        'sum': lambda x, y: x + y,
+        'log': lambda x: x,
+        'int': lambda: next(gen)
+    }, 
+    symbols_inv={
         2: ['sum'],
         1: ['log'],
-        0: [lambda: next(gen)]
-    }
+        0: ['int']
+    })
 
-    values = assign_random_symbols(edges, symbols)
+    values = assign_random_symbols(edges, env)
 
     assert values == {1: 'sum', 2: 'log', 3: '5', 5: '5'}

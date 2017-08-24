@@ -25,8 +25,8 @@ class Node():
         
         return stack.pop()
 
-    def __call__(self, nonterminals, terminals):
-        return eval(str(self), {**nonterminals, **terminals} )
+    def __call__(self, symbols):
+        return eval(str(self), symbols )
 
     def copy(self):
         return deepcopy(self)
