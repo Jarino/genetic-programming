@@ -58,16 +58,17 @@ def test_choose_child_upper_bound(choice_mock):
 def test_assign_random_symbols():
     edges = [(1, 2), (2, 3), (1, 5)]
 
-    nonterminals = {
-        'sum': 2,
-        'log': 1
+    def num_gen():
+        while True:
+            yield '5'
+
+    gen = num_gen()    
+    symbols = {
+        2: ['sum'],
+        1: ['log'],
+        0: [lambda: next(gen)]
     }
 
-    terminals = [
-        '5'
-    ]
-
-    values = assign_random_symbols(edges, nonterminals, terminals)
-
+    values = assign_random_symbols(edges, symbols)
 
     assert values == {1: 'sum', 2: 'log', 3: '5', 5: '5'}

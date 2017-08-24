@@ -51,11 +51,11 @@ def get_random_tree(n_nodes, child_limit):
         src.append(child)
     return src, edges
 
-def assign_random_symbols(edges, nonterminals, terminals):
+def assign_random_symbols(edges, symbols):
     """
     Assign random terminals to leafs and non terminals to nodes
     """
-    nonterminals_rev = reverse(nonterminals)
+    # nonterminals_rev = reverse(nonterminals)
 
     parents = [x[0] for x in edges]
     p_occurencies = Counter(parents)
@@ -67,10 +67,11 @@ def assign_random_symbols(edges, nonterminals, terminals):
 
     for parent in parents:
         n_args = p_occurencies[parent]
-        operator = choice(nonterminals_rev[n_args])
+        operator = choice(symbols[n_args])
         values[parent] = operator
 
     for leaf in leaves:
-        values[leaf] = choice(terminals)
+        # symbol which takes no arguments is considered terminal
+        values[leaf] = choice(symbols[0])()
 
     return values

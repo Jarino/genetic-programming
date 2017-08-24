@@ -12,11 +12,11 @@ class Node():
     def add_child(self, child):
         self.children.append(child)
     
-    def to_expression(self, nonterminals):
+    def __str__(self):
         stack = []
 
         for current_node in reversed(walk_nodes(self)):
-            if current_node.value not in nonterminals:
+            if len(current_node.children) == 0:
                 stack.append(current_node.value)
             else:
                 n_arguments = len(current_node.children)
@@ -26,8 +26,7 @@ class Node():
         return stack.pop()
 
     def __call__(self, nonterminals, terminals):
-        expression = self.to_expression(nonterminals)
-        return eval(expression, {**nonterminals, **terminals} )
+        return eval(str(self), {**nonterminals, **terminals} )
 
     def copy(self):
         return deepcopy(self)

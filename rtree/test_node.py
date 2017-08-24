@@ -1,9 +1,7 @@
 def test_node_to_string(tree_with_vars):
     nonterminals = {'_sum', '_diff'}
 
-    expression = tree_with_vars.to_expression(nonterminals)
-
-    assert expression == '_sum(_diff(x,z),y)'
+    assert str(tree_with_vars) == '_sum(_diff(x,z),y)'
 
 def test_node_eval(tree_with_vars):
 
