@@ -3,8 +3,8 @@ Module containing functions for genetic operations
 """
 from random import choice
 
-from rtree.dfs import walk_nodes_with_parents
-from rtree.dfs import walk_nodes
+from utils.dfs import walk_nodes_with_parents
+from utils.dfs import walk_nodes
 
 
 def crossover(tree_a, tree_b):

@@ -6,9 +6,9 @@ from unittest.mock import patch
 
 import numpy as np
 
-from tree.random import get_random_tree
-from tree.random import choose_child
-from tree.random import assign_random_symbols
+from utils.random import get_random_tree
+from utils.random import choose_child
+from utils.random import assign_random_symbols
 
 
 def not_so_random_permutation(length):
@@ -23,7 +23,7 @@ def choice_generator(length):
 
 
 @patch('numpy.random.permutation', side_effect=not_so_random_permutation)
-@patch('tree.random.choice', side_effect=not_so_random_choice)
+@patch('utils.random.choice', side_effect=not_so_random_choice)
 def test_basic_tree(permutation_mock, choice_mock):
     src, edges = get_random_tree(5, 2)
 
@@ -35,7 +35,7 @@ def test_basic_tree(permutation_mock, choice_mock):
 # we used in the tree module, see
 # http://fgimian.github.io/blog/2014/04/10/using-the-python-mock-library-to-fake-regular-functions-during-tests/
 # for reference
-@patch('tree.random.choice')
+@patch('utils.random.choice')
 def test_choose_child_upper_bound(choice_mock):
     """
     Tests whether function returns child which do not violate the upper bound

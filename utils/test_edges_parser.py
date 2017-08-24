@@ -1,5 +1,5 @@
-from tree.edges_parser import parse
-from tree.edges_parser import parse_to_nodes
+from utils.edges_parser import parse
+from utils.edges_parser import parse_to_nodes
 
 def test_edges_parser():
     input_edges = [(1, 2), (1, 3), (3, 4)]

@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from rtree.dfs import walk_nodes
+from utils.dfs import walk_nodes
 
 
 class Node():

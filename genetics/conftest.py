@@ -1,7 +1,7 @@
 import pytest
 
 from rtree.node import Node
-from tree.edges_parser import parse_to_nodes
+from utils.edges_parser import parse_to_nodes
 
 @pytest.fixture(scope='session')
 def test_tree_a():

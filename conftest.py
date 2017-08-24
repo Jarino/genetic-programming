@@ -1,8 +1,8 @@
 import pytest
 
-from tree.edges_parser import parse_to_nodes
+from utils.edges_parser import parse_to_nodes
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='module')
 def test_root_node():
     edges = [(3, 1), (3, 4), (1, 2), (1, 0)]
 
@@ -10,7 +10,7 @@ def test_root_node():
 
     return root_node
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='module')
 def tree_with_vars():
     edges = [(3, 1), (3, 4), (1, 2), (1, 0)]
 
@@ -26,7 +26,7 @@ def tree_with_vars():
 
     return root_node
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='module')
 def tree_with_vars_and_numbers():
     edges = [(3, 1), (3, 4), (1, 2), (1, 0)]
 

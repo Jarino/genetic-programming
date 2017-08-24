@@ -1,5 +1,5 @@
-from rtree.dfs import walk_values
-from rtree.dfs import walk_nodes_with_parents
+from utils.dfs import walk_values
+from utils.dfs import walk_nodes_with_parents
 
 
 def test_dfs(test_root_node):

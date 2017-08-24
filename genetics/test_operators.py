@@ -3,7 +3,7 @@ Unit tests for genetic operators
 """
 from unittest.mock import patch
 
-from rtree.dfs import walk_values
+from utils.dfs import walk_values
 from genetics.operators import crossover
 from genetics.operators import point_mutation
 
