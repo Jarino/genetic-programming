@@ -29,13 +29,24 @@ def _switch_subtrees(tree_a, tree_b):
     parent_b.children[index_to_replace] = child_a
 
 
-def point_mutation(tree, symbols):
+def point_mutation(tree, env):
+    """
+    TODO: rewrite to per node based evaluation of mutation probability
+    """
     mutated_tree = tree.copy()
 
     nodes = walk_nodes(mutated_tree)
 
     chosen = choice(nodes)
 
-    chosen.value = choice(symbols[len(chosen.children)])
+    n_children = len(chosen.children)
+    is_leaf = n_children == 0
+
+    if is_leaf:
+        # we need to call generator in this case
+        gen_name = choice(env.symbols_inv[0])
+        chosen.value = env.symbols[gen_name]()
+    else:
+        chosen.value = choice(env.symbols_inv[len(chosen.children)])
 
     return mutated_tree

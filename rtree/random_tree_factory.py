@@ -10,6 +10,8 @@ class RandomTreeFactory():
     def __init__(self, nodes=None, environment=None):
         if environment is None:
             self.environment = BasicEnvironment()
+        else:
+            self.environment = environment
 
         if nodes == None:
             self.nodes = list(range(3,6))

@@ -32,14 +32,3 @@ print(child_b, child_b(env({
     'x': 10,
     'y': 5
 })))
-
-
-# factory = RandomTreeFactory(5, 2, nonterminals, terminals)
-
-# tree = factory.create()
-
-# try:
-#     print(tree, tree({'x': 100, 'y': 12}))
-# except ValueError:
-#     print('Math domain error')
-#     print(tree)
