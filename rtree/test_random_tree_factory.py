@@ -26,4 +26,10 @@ def test_random_creation(choice_mock):
     tree = factory.create()
 
     assert str(tree) == '_sum(_sum(x,x),_sum(x,x))'
+
+    # add the 0 arity and check that it generates only one node with x value
+    factory.arities = [0, 2]
+    tree = factory.create()
+
+    assert str(tree) == 'x'
     

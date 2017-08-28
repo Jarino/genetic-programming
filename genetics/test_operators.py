@@ -12,14 +12,14 @@ from genetics.operators import point_mutation
 @patch('genetics.operators.choice')
 def test_crossover(choice_mock, test_tree_a, test_tree_b):
 
-    gen = choice_generator([0, 2])
+    gen = choice_generator([2, 0])
 
     choice_mock.side_effect = lambda x: x[next(gen)]
 
     child_a, child_b = crossover(test_tree_a, test_tree_b)
 
-    assert walk_values(child_a) == [0, 'd', 'e', 4]
-    assert walk_values(child_b) == [
+    assert walk_values(child_b) == [0, 'd', 'e', 4]
+    assert walk_values(child_a) == [
         'a', 'b', 'c', 1, 2, 3
     ]
 

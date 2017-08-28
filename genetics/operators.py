@@ -8,16 +8,31 @@ from utils.dfs import walk_nodes
 
 
 def crossover(tree_a, tree_b):
-    child_a = tree_a.copy()
-    child_b = tree_b.copy()
+    args = [tree_a.copy(), tree_b.copy()]
 
-    _switch_subtrees(child_a, child_b)
-    
-    return child_a, child_b
+    # this is a way too shitty way to check, but it fulfills its purpouse:
+    # if node has zero number of children, it will be first and _switch_subtrees
+    # subroutine then handle the special case
+    args.sort(key=lambda x: len(x.children)) 
+   
+    _switch_subtrees(*args)
+
+    return args
 
 def _switch_subtrees(tree_a, tree_b):
     tree_a_nodes = walk_nodes_with_parents(tree_a)
     tree_b_nodes = walk_nodes_with_parents(tree_b)
+
+    if len(tree_a_nodes) == 0 and len(tree_b_nodes) == 0:
+        return 
+
+    if len(tree_a_nodes) == 0:
+        parent_b, child_b = choice(tree_b_nodes)
+        index_to_replace = parent_b.children.index(child_b)
+
+        parent_b.children[index_to_replace] = tree_a
+        tree_a = child_b
+        return
 
     parent_a, child_a = choice(tree_a_nodes)
     parent_b, child_b = choice(tree_b_nodes)

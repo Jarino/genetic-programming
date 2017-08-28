@@ -17,7 +17,7 @@ class RandomTreeFactory():
         _, edges = get_random_tree(self.max_depth, self.arities)
 
         values = assign_random_symbols(edges, self.environment)
-
+        
         root_node, _ = parse_to_nodes(edges, values)
 
         return root_node
