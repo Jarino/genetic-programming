@@ -1,5 +1,3 @@
-from random import choice
-
 from environment.environment import BasicEnvironment
 from utils.random import get_random_tree
 from utils.random import assign_random_symbols
@@ -7,22 +5,16 @@ from utils.edges_parser import parse_to_nodes
 
 class RandomTreeFactory():
 
-    def __init__(self, nodes=None, environment=None):
-        if environment is None:
-            self.environment = BasicEnvironment()
-        else:
-            self.environment = environment
+    def __init__(self, max_depth=None, environment=None):
 
-        if nodes == None:
-            self.nodes = list(range(3,6))
+        self.environment = BasicEnvironment if environment is None else environment
 
-        self.max_children = max(self.environment.symbols_inv.keys())
+        self.max_depth = 3 if max_depth is None else max_depth
+
+        self.arities = list(self.environment.symbols_inv.keys())
 
     def create(self):
-        _, edges = get_random_tree(
-            choice(self.nodes),
-            self.max_children
-        )
+        _, edges = get_random_tree(self.max_depth, self.arities)
 
         values = assign_random_symbols(edges, self.environment)
 

@@ -24,6 +24,9 @@ def parse(edges):
     return list(nodes), hash_map
 
 def parse_to_nodes(edges, values=None):
+    if len(edges) == 0:
+        return 0, Node(values[0])
+
     nodes = {}
 
     if values is None:

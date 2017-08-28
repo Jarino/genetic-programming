@@ -4,58 +4,47 @@ Functions related to generation of random trees.
 
 from random import choice
 from functools import reduce
+from itertools import count
 from collections import Counter
 
 import numpy as np
 
 from utils.dictionary import reverse
 
-def choose_child(options, edges, child_limit):
+
+def get_random_tree(max_depth, arities):
     """
-    Choose random child from set of options such that given node did not
-    exceed the child limit
+    Generate random tree of given depth with randomly chosen arities from
+    provided list of all possible arities.
+
+    Returns tuple - list of nodes and list of edges
     """
-    count = child_limit
-
-    while count >= child_limit:
-        selected = choice(options)
-
-        count = reduce( (
-            lambda cum, item: cum + 1 if item[0] == selected else cum + 0
-        ), edges, 0)
-    
-    return selected
-
-
-def get_random_tree(n_nodes, child_limit):
-    """
-    Generate random tree containing n_nodes. The depth is not limited.
-    chlid_limit limits the number of child each node can have. 
-
-    Returns simple representation of tree - list of nodes and list of edges
-
-    Implemented by this:
-    https://nokyotsu.com/qscripts/2008/05/generating-random-trees-and-connected.html
-    """
-    nodes = np.random.permutation(n_nodes).tolist()
-    # choose the root
-    src = [nodes.pop()]
+    new_id = count()
+    root = next(new_id) 
     edges = []
+    nodes = [root]
+    l_queue = [root]
 
-    while len(nodes) > 0:
-        # since at the first iteration the src array contains only root, we can
-        # be sure it won't be detached
-        parent = choose_child(src, edges, child_limit)
-        child = nodes.pop()
-        edges.append((parent, child))
-        src.append(child)
-    return src, edges
+    for _ in range(1, max_depth):
+        queue = l_queue[:]
+        l_queue = []
+        while len(queue) > 0:
+            parent = queue.pop(0)
+
+            arity = choice(arities)
+
+            for _ in range(0, arity):
+                new_node = next(new_id)
+                nodes.append(new_node)
+                edges.append((parent, new_node))
+                l_queue.append(new_node)
+
+    return nodes, edges
 
 def assign_random_symbols(edges, env):
     """
     Assign random terminals to leafs and non terminals to nodes
     """
-    # nonterminals_rev = reverse(nonterminals)
 
     parents = [x[0] for x in edges]
     p_occurencies = Counter(parents)
@@ -64,6 +53,10 @@ def assign_random_symbols(edges, env):
     leaves = children - set(parents)
 
     values = {}
+
+    if len(edges) == 0:
+        term = choice(env.symbols_inv[0])
+        values[0] = env.symbols[term]()
 
     for parent in parents:
         n_args = p_occurencies[parent]
