@@ -31,7 +31,7 @@ def _switch_subtrees(tree_a, tree_b):
 
 def point_mutation(tree, env):
     """
-    TODO: rewrite to per node based evaluation of mutation probability
+    TODO: rewrite to per node based evaluation of mutation probability, or?
     """
     mutated_tree = tree.copy()
 
